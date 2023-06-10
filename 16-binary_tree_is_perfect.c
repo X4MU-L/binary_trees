@@ -40,7 +40,7 @@ size_t min_tree_height(const binary_tree_t *tree)
 }
 
 /**
- * min_tree_is_perfect - checks if a binary tree is perfect
+ * binary_tree_is_perfect - checks if a binary tree is perfect
  * @tree: the node from which to check if perfect
  * Return: 1 if perfect 0 if not or @tree is NULL
  */
