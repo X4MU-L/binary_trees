@@ -37,7 +37,7 @@ size_t min_tree_height(const binary_tree_t *tree)
 
 	return ((left_sum <= right_sum ? left_sum : right_sum) + 1);
 
-
+}
 
 /**
  * min_tree_is_perfect - checks if a binary tree is perfect
