@@ -1,6 +1,34 @@
 #include "binary_trees.h"
 
 /**
+ * find_ancestor - find the common ancestor of two nodes
+ * @root: the root of the nodes
+ * @first: the first node
+ * @second: the second node
+ * Return: the common ancestor of both nodes or NULL
+ */
+
+binary_tree_t *find_ancestor(const binary_tree_t *root,
+			     const binary_tree_t *first,
+			     const binary_tree_t *second)
+{
+	binary_tree_t *left, *right;
+
+	if (root == first || root == second)
+		return ((binary_tree_t *) root);
+
+	if (!root || (!root->right && !root->left))
+		return (NULL);
+
+	left = find_ancestor(root->left, first, second);
+	right = find_ancestor(root->right, first, second);
+	if (left && right)
+		return ((binary_tree_t *)root);
+
+	return ((left == NULL) ? right : left);
+}
+
+/**
  * binary_trees_ancestor - gets the common lowest ancestor of two nodes
  * @first: first node
  * @second: second node
@@ -9,21 +37,13 @@
 binary_tree_t *binary_trees_ancestor(const binary_tree_t *first,
 				     const binary_tree_t *second)
 {
-	if (!first || !second || !second->parent || !first->parent)
+	binary_tree_t *root = (binary_tree_t *) first;
+
+	if (!first || !second)
 		return (NULL);
 
-	else if (first == second)
-		return ((binary_tree_t *)first);
-	else if (second->parent == first)
-		return ((binary_tree_t *)first);
-	else if (first->parent == second)
-		return ((binary_tree_t *)second);
-	else if (first->parent == second->parent)
-		return (first->parent);
-	else if (second->parent->parent == first->parent)
-		return (first->parent);
-	else if (first->parent->parent == second->parent)
-		return (second->parent);
+	while(root->parent)
+		root = root->parent;
 
-	return (binary_trees_ancestor(first->parent, second->parent));
+	return (find_ancestor(root, first, second));
 }
